@@ -36,5 +36,20 @@ public class Contato {
         this.nome = email;
     }
 
+    @Override
+    public String toString() {
+        StringBuilder sb = new StringBuilder();
+        sb.append("Nome: ").append(nome);
+        sb.append("\n");
+        sb.append("Telefone: ").append(telefone);
+        sb.append("\n");
+        sb.append("Email: ").append(email);
+        sb.append("\n");
+        sb.append("------------------------------------");
+        sb.append("\n");
+        return sb.toString();
+    }
+    
+
 
 }
