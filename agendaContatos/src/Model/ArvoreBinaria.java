@@ -112,29 +112,29 @@ public class ArvoreBinaria {
         return buscarPorEmailRecursivo(noAtual.direito, email);
     }
 
-    public void exibirEmOrdem(No noAtual) {
+    public void exibirEmOrdem(No noAtual, StringBuilder sb) {
         if (noAtual != null) {
-            exibirEmOrdem(noAtual.esquerdo);
-            System.out.println(noAtual.contato);
-            exibirEmOrdem(noAtual.direito);
+            exibirEmOrdem(noAtual.esquerdo, sb);
+            sb.append(noAtual.contato.toString()).append("\n");
+            exibirEmOrdem(noAtual.direito, sb);
         }
 
     }
 
-    public void exibirPreOrdem(No noAtual) {
+    public void exibirPreOrdem(No noAtual, StringBuilder sb) {
         if (noAtual != null) {
-            System.out.println(noAtual.contato);
-            exibirEmOrdem(noAtual.esquerdo);
-            exibirEmOrdem(noAtual.direito);
+            sb.append(noAtual.contato.toString()).append("\n");
+            exibirEmOrdem(noAtual.esquerdo, sb);
+            exibirEmOrdem(noAtual.direito, sb);
         }
 
     }
 
-    public void exibirPosOrdem(No noAtual) {
+    public void exibirPosOrdem(No noAtual, StringBuilder sb) {
         if (noAtual != null) {
-            exibirEmOrdem(noAtual.esquerdo);
-            exibirEmOrdem(noAtual.direito);
-            System.out.println(noAtual.contato);
+            exibirEmOrdem(noAtual.esquerdo, sb);
+            exibirEmOrdem(noAtual.direito, sb);
+            sb.append(noAtual.contato.toString()).append("\n");
         }
 
     }

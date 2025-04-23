@@ -1,4 +1,5 @@
 package View;
+
 import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -11,10 +12,17 @@ import javax.swing.JOptionPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 
+import Controller.AgendaControle;
+import Model.ArvoreBinaria;
 
 public class InterfaceUsuario {
 
-    public InterfaceUsuario(){
+    private AgendaControle controle;
+    private ArvoreBinaria arvore;
+
+    public InterfaceUsuario(AgendaControle controle, ArvoreBinaria arvore) {
+        this.controle = controle;
+        this.arvore = arvore;
         configurarInterface();
     }
 
@@ -56,19 +64,21 @@ public class InterfaceUsuario {
         area.setBounds(40, 170, 600, 200);
         area.setBorder(BorderFactory.createLineBorder(Color.BLACK));
         area.setEditable(false);
-
-        area.append("Rafael \n");
-        area.append("Teste \n");
+         
         janela.add(area);
 
         JButton btAdicionar = new JButton("Adicionar");
         btAdicionar.setBounds(40, 400, 100, 30);
         janela.add(btAdicionar);
 
-        btAdicionar.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e){
-                JOptionPane.showMessageDialog(null, "Botão clicado!");
-            }
+        btAdicionar.addActionListener( e -> {
+            String nome = txtNome.getText();
+            String telefone = txtTelefone.getText();
+            String email = txtEmail.getText();
+
+            controle.adicionarContato(nome, telefone, email);
+
+            atualizarAreaDeTexto(area);
         });
 
         JButton btBuscar = new JButton("Buscar");
@@ -85,5 +95,10 @@ public class InterfaceUsuario {
         
         janela.setVisible(true);
     }
+
+    private void atualizarAreaDeTexto(JTextArea area) {
+        area.setText(controle.exibirContatosEmOrdem());
+    }
+    
 
 }

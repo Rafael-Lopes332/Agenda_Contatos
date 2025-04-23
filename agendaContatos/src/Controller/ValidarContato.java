@@ -5,15 +5,15 @@ import Model.Contato;
 
 public class ValidarContato {
 
-    public boolean telefoneValido(String telefone) {
+    public static boolean telefoneValido(String telefone) {
         return telefone.matches("^\\(\\d{2}\\)\\s?9\\d{4}-\\d{4}$");
     }
 
-    public boolean emailValido(String email) {
+    public static boolean emailValido(String email) {
         return email.matches("^[\\w\\.-]+@[\\w\\.-]+\\.[a-zA-Z]{2,}$");
     }
 
-    public boolean contatoExiste(String telefone, String email, ArvoreBinaria arvore) {
+    public static boolean contatoExiste(String telefone, String email, ArvoreBinaria arvore) {
         Contato contatoTelefone = arvore.buscarPorTelefone(telefone);
         Contato contatoEmail = arvore.buscarPorEmail(email);
 
