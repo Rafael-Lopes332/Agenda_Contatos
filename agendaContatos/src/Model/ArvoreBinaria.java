@@ -36,6 +36,82 @@ public class ArvoreBinaria {
 
     }
 
+    public Contato buscarPorNome(String nome) {
+        if (raiz == null) {
+            return null;
+        } else {
+            return buscarPorNomeRecursivo(raiz, nome);
+        }
+    }
+
+    private Contato buscarPorNomeRecursivo(No noAtual, String nome) {
+        if (noAtual == null) {
+            return null;
+        }
+
+        int comparacao = nome.compareToIgnoreCase(noAtual.contato.getNome());
+
+        if (comparacao < 0) {
+            return buscarPorNomeRecursivo(noAtual.esquerdo, nome);
+        }
+
+        if (comparacao > 0) {
+            return buscarPorNomeRecursivo(noAtual.direito, nome);
+        }
+
+        return noAtual.contato;
+    }
+
+    public Contato buscarPorTelefone(String telefone) {
+        if (raiz == null) {
+            return null;
+        } else {
+            return buscarPorTelefoneRecursivo(raiz, telefone);
+        }
+    }
+
+    private Contato buscarPorTelefoneRecursivo(No noAtual, String telefone) {
+        if (noAtual == null) {
+            return null;
+        }
+
+        if (noAtual.contato.getTelefone().equals(telefone)) {
+            return noAtual.contato;
+        }
+
+        Contato encotradoNaEsquerda = buscarPorTelefoneRecursivo(noAtual.esquerdo, telefone);
+        if (encotradoNaEsquerda != null) {
+            return encotradoNaEsquerda;
+        }
+
+        return buscarPorTelefoneRecursivo(noAtual.direito, telefone);
+    }
+
+    public Contato buscarPorEmail(String email) {
+        if (raiz == null) {
+            return null;
+        } else {
+            return buscarPorEmailRecursivo(raiz, email);
+        }
+    }
+
+    private Contato buscarPorEmailRecursivo(No noAtual, String email){
+        if (noAtual == null) {
+            return null;
+        }
+
+        if (noAtual.contato.getEmail().equals(email)) {
+            return noAtual.contato;
+        }
+
+        Contato encontradoEsquerda = buscarPorEmailRecursivo(noAtual.esquerdo, email);
+        if (encontradoEsquerda != null) {
+            return encontradoEsquerda;
+        }
+
+        return buscarPorEmailRecursivo(noAtual.direito, email);
+    }
+
     public void exibirEmOrdem(No noAtual) {
         if (noAtual != null) {
             exibirEmOrdem(noAtual.esquerdo);

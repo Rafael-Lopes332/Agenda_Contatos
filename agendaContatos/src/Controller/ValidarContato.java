@@ -2,5 +2,13 @@ package Controller;
 
 public class ValidarContato {
     
+    public boolean telefoneValido(String telefone) {
+        return telefone.matches("^\\(\\d{2}\\)\\s?9\\d{4}-\\d{4}$");
+    }
+
+    public boolean emailValido(String email) {
+        return email.matches("^[\\w\\.-]+@[\\w\\.-]+\\.[a-zA-Z]{2,}$");
+    }
+    
     
 }
