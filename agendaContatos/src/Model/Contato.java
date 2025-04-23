@@ -45,8 +45,6 @@ public class Contato {
         sb.append("\n");
         sb.append("Email: ").append(email);
         sb.append("\n");
-        sb.append("------------------------------------");
-        sb.append("\n");
         return sb.toString();
     }
     
