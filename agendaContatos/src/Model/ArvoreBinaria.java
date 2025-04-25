@@ -1,5 +1,7 @@
 package Model;
 
+import java.util.List;
+
 public class ArvoreBinaria {
     private No raiz;
 
@@ -112,29 +114,29 @@ public class ArvoreBinaria {
         return buscarPorEmailRecursivo(noAtual.direito, email);
     }
 
-    public void exibirEmOrdem(No noAtual, StringBuilder sb) {
+    public void exibirEmOrdem(No noAtual, List<Contato> lista) {
         if (noAtual != null) {
-            exibirEmOrdem(noAtual.esquerdo, sb);
-            sb.append(noAtual.contato.toString()).append("\n");
-            exibirEmOrdem(noAtual.direito, sb);
+            exibirEmOrdem(noAtual.esquerdo, lista);
+            lista.add(noAtual.contato);
+            exibirEmOrdem(noAtual.direito, lista);
         }
 
     }
 
-    public void exibirPreOrdem(No noAtual, StringBuilder sb) {
+    public void exibirPreOrdem(No noAtual, List<Contato> lista) {
         if (noAtual != null) {
-            sb.append(noAtual.contato.toString()).append("\n");
-            exibirEmOrdem(noAtual.esquerdo, sb);
-            exibirEmOrdem(noAtual.direito, sb);
+            lista.add(noAtual.contato);
+            exibirEmOrdem(noAtual.esquerdo, lista);
+            exibirEmOrdem(noAtual.direito, lista);
         }
 
     }
 
-    public void exibirPosOrdem(No noAtual, StringBuilder sb) {
+    public void exibirPosOrdem(No noAtual, List<Contato> lista) {
         if (noAtual != null) {
-            exibirEmOrdem(noAtual.esquerdo, sb);
-            exibirEmOrdem(noAtual.direito, sb);
-            sb.append(noAtual.contato.toString()).append("\n");
+            exibirEmOrdem(noAtual.esquerdo, lista);
+            exibirEmOrdem(noAtual.direito, lista);
+            lista.add(noAtual.contato);
         }
 
     }

@@ -1,20 +1,22 @@
 package View;
 
-import java.awt.Color;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+import java.util.ArrayList;
+import java.util.List;
 
-import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
-import javax.swing.JOptionPane;
-import javax.swing.JTextArea;
+
+import javax.swing.JScrollPane;
+import javax.swing.JTable;
+
 import javax.swing.JTextField;
+import javax.swing.table.DefaultTableModel;
 
 import Controller.ContatoControle;
 import Model.ArvoreBinaria;
+import Model.Contato;
 
 public class InterfaceUsuario {
 
@@ -24,6 +26,8 @@ public class InterfaceUsuario {
     private JTextField txtNome;
     private JTextField txtTelefone;
     private JTextField txtEmail;
+
+    private JTable tabelaContatos;
 
     public InterfaceUsuario(ContatoControle controle, ArvoreBinaria arvore) {
         this.controle = controle;
@@ -64,13 +68,14 @@ public class InterfaceUsuario {
         txtEmail.setBounds(40, 110, 270, 25);
         janela.add(txtEmail);
 
-        JTextArea area = new JTextArea();
-
-        area.setBounds(40, 170, 600, 200);
-        area.setBorder(BorderFactory.createLineBorder(Color.BLACK));
-        area.setEditable(false);
-
-        janela.add(area);
+        String[] colunas = { "Nome", "Telefone", "Email" };
+        DefaultTableModel modeloTabela = new DefaultTableModel(colunas, 0);
+        tabelaContatos = new JTable(modeloTabela);
+        JScrollPane scrollPane = new JScrollPane(tabelaContatos);
+        scrollPane.setBounds(40, 170, 600, 200);
+        tabelaContatos.setEnabled(false);
+        tabelaContatos.getTableHeader().setReorderingAllowed(false);
+        janela.add(scrollPane);
 
         JButton btAdicionar = new JButton("Adicionar");
         btAdicionar.setBounds(40, 400, 100, 30);
@@ -81,9 +86,12 @@ public class InterfaceUsuario {
             String telefone = txtTelefone.getText();
             String email = txtEmail.getText();
 
-            controle.adicionarContato(nome, telefone, email);
+            if (controle.adicionarContato(nome, telefone, email)) {
+                modeloTabela.addRow(new Object[] { nome, telefone, email });
 
-            atualizarAreaDeTexto(area);
+                limparCampos();
+            }
+
         });
 
         JButton btBuscar = new JButton("Buscar");
@@ -105,23 +113,23 @@ public class InterfaceUsuario {
 
         comboBusca.addActionListener(e -> {
             String ordem = (String) comboBusca.getSelectedItem();
-            String resultado = "";
+            List<Contato> contatos = new ArrayList<>();
 
             switch (ordem) {
                 case "Em ordem":
-                    resultado = controle.exibirContatosEmOrdem();
+                    contatos = controle.exibirContatosEmOrdem();
                     break;
 
                 case "Pré-ordem":
-                    resultado = controle.exibirContatosPreOrdem();
+                    contatos = controle.exibirContatosPreOrdem();
                     break;
 
                 case "Pós-ordem":
-                    resultado = controle.exibirContatosPosOrdem();
+                    contatos = controle.exibirContatosPosOrdem();
                     break;
             }
 
-            area.setText(resultado);
+            atualizarTabela(contatos);
 
         });
 
@@ -129,14 +137,20 @@ public class InterfaceUsuario {
 
     }
 
-    private void atualizarAreaDeTexto(JTextArea area) {
-        area.setText(controle.exibirContatosEmOrdem());
-    }
-
     private void limparCampos() {
         txtNome.setText("");
         txtTelefone.setText("");
         txtEmail.setText("");
+    }
+
+    private void atualizarTabela(List<Contato> contatos) {
+
+        DefaultTableModel modeloTabela = (DefaultTableModel) tabelaContatos.getModel();
+        modeloTabela.setRowCount(0);
+
+        for (Contato contato : contatos) {
+            modeloTabela.addRow(new Object[] { contato.getNome(), contato.getTelefone(), contato.getEmail() });
+        }
     }
 
 }

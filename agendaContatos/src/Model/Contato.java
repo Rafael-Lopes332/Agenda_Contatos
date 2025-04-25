@@ -40,9 +40,9 @@ public class Contato {
     public String toString() {
         StringBuilder sb = new StringBuilder();
         sb.append("Nome: ").append(nome);
-        sb.append("\n");
+        sb.append("      ||      ");
         sb.append("Telefone: ").append(telefone);
-        sb.append("\n");
+        sb.append("      ||      ");
         sb.append("Email: ").append(email);
         sb.append("\n");
         return sb.toString();
