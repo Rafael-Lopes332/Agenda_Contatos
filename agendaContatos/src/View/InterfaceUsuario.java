@@ -10,6 +10,8 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
+import java.awt.Font;
+import java.awt.Color;
 
 import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
@@ -56,6 +58,12 @@ public class InterfaceUsuario {
         lbTelefone.setBounds(430, 15, 100, 30);
         janela.add(lbTelefone);
 
+        JLabel lbExemploTelefone = new JLabel("Ex: (11) 91234-5678");
+        lbExemploTelefone.setFont(new Font("Arial", Font.ITALIC, 12));
+        lbExemploTelefone.setForeground(Color.GRAY);
+        lbExemploTelefone.setBounds(430, 75, 200, 15);
+        janela.add(lbExemploTelefone);
+
         txtTelefone = new JTextField();
         txtTelefone.setBounds(430, 50, 210, 25);
         janela.add(txtTelefone);
@@ -63,6 +71,12 @@ public class InterfaceUsuario {
         JLabel lbEmail = new JLabel("Email");
         lbEmail.setBounds(40, 80, 100, 30);
         janela.add(lbEmail);
+
+        JLabel lbExemploEmail = new JLabel("Ex: nome@email.com");
+        lbExemploEmail.setFont(new Font("Arial", Font.ITALIC, 12));
+        lbExemploEmail.setForeground(Color.GRAY);
+        lbExemploEmail.setBounds(40, 135, 200, 15);
+        janela.add(lbExemploEmail);
 
         txtEmail = new JTextField();
         txtEmail.setBounds(40, 110, 270, 25);
@@ -102,9 +116,9 @@ public class InterfaceUsuario {
             String nome = txtNome.getText().trim();
             String telefone = txtTelefone.getText().trim();
             String email = txtEmail.getText().trim();
-        
+
             Contato contato = null;
-        
+
             if (!nome.isEmpty()) {
                 contato = controle.buscarPorNome(nome);
             } else if (!telefone.isEmpty()) {
@@ -115,7 +129,7 @@ public class InterfaceUsuario {
                 JOptionPane.showMessageDialog(null, "Digite nome, telefone ou email para buscar.");
                 return;
             }
-        
+
             if (contato != null) {
                 txtNome.setText(contato.getNome());
                 txtTelefone.setText(contato.getTelefone());
@@ -124,7 +138,6 @@ public class InterfaceUsuario {
                 JOptionPane.showMessageDialog(null, "Contato não encontrado.");
             }
         });
-        
 
         JButton btEditar = new JButton("Editar");
         btEditar.setBounds(390, 400, 100, 30);
