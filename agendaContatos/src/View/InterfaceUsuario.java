@@ -7,7 +7,7 @@ import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
-
+import javax.swing.JOptionPane;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 
@@ -97,6 +97,34 @@ public class InterfaceUsuario {
         JButton btBuscar = new JButton("Buscar");
         btBuscar.setBounds(190, 400, 100, 30);
         janela.add(btBuscar);
+
+        btBuscar.addActionListener(e -> {
+            String nome = txtNome.getText().trim();
+            String telefone = txtTelefone.getText().trim();
+            String email = txtEmail.getText().trim();
+        
+            Contato contato = null;
+        
+            if (!nome.isEmpty()) {
+                contato = controle.buscarPorNome(nome);
+            } else if (!telefone.isEmpty()) {
+                contato = controle.buscarPorTelefone(telefone);
+            } else if (!email.isEmpty()) {
+                contato = controle.buscarPorEmail(email);
+            } else {
+                JOptionPane.showMessageDialog(null, "Digite nome, telefone ou email para buscar.");
+                return;
+            }
+        
+            if (contato != null) {
+                txtNome.setText(contato.getNome());
+                txtTelefone.setText(contato.getTelefone());
+                txtEmail.setText(contato.getEmail());
+            } else {
+                JOptionPane.showMessageDialog(null, "Contato não encontrado.");
+            }
+        });
+        
 
         JButton btEditar = new JButton("Editar");
         btEditar.setBounds(390, 400, 100, 30);
