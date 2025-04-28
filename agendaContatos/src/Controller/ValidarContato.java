@@ -13,10 +13,28 @@ public class ValidarContato {
         return email.matches("^[\\w\\.-]+@[\\w\\.-]+\\.[a-zA-Z]{2,}$");
     }
 
+    // Para adicionar
     public static boolean contatoExiste(String telefone, String email, ArvoreBinaria arvore) {
         Contato contatoTelefone = arvore.buscarPorTelefone(telefone);
         Contato contatoEmail = arvore.buscarPorEmail(email);
 
         return contatoTelefone != null || contatoEmail != null;
     }
+
+    // Para editar
+    public static boolean contatoExiste(String telefone, String email, ArvoreBinaria arvore, Contato contatoAtual) {
+        Contato contatoTelefone = arvore.buscarPorTelefone(telefone);
+        Contato contatoEmail = arvore.buscarPorEmail(email);
+
+        if (contatoTelefone != null && !contatoTelefone.equals(contatoAtual)) {
+            return true;
+        }
+
+        if (contatoEmail != null && !contatoEmail.equals(contatoAtual)) {
+            return true;
+        }
+
+        return false;
+    }
+
 }

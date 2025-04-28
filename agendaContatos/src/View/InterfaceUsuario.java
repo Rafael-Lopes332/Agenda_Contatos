@@ -97,9 +97,9 @@ public class InterfaceUsuario {
         JScrollPane scrollPane = new JScrollPane(tabelaContatos);
         scrollPane.setBounds(40, 170, 600, 200);
 
-        tabelaContatos.setRowSelectionAllowed(true);
-        tabelaContatos.setColumnSelectionAllowed(false);
-        tabelaContatos.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+        //tabelaContatos.setRowSelectionAllowed(true);
+        //tabelaContatos.setColumnSelectionAllowed(false);
+        //tabelaContatos.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         tabelaContatos.getTableHeader().setReorderingAllowed(false);
 
         janela.add(scrollPane);
@@ -173,15 +173,26 @@ public class InterfaceUsuario {
         janela.add(btEditar);
 
         btEditar.addActionListener(e -> {
-            String nome = txtNome.getText().trim();
-            String novoTelefone = txtTelefone.getText().trim();
-            String novoEmail = txtEmail.getText().trim();
-
-            controle.editarContato(nome, novoTelefone, novoEmail);
-
-            atualizarTabela(controle.buscarTodosContatos());
-
-            limparCampos();
+            int linhaSelecionada = tabelaContatos.getSelectedRow();
+        
+            if (linhaSelecionada != -1) {
+                String nome = (String) modeloTabela.getValueAt(linhaSelecionada, 0);
+                String telefone = (String) modeloTabela.getValueAt(linhaSelecionada, 1);
+                String email = (String) modeloTabela.getValueAt(linhaSelecionada, 2);
+                
+                
+                Contato contatoSelecionado = controle.buscarPorNome(nome);
+                
+                if (contatoSelecionado != null) {
+                    
+                    InterfaceEditarContato interfaceEditar = new InterfaceEditarContato(contatoSelecionado, this, controle);
+                    interfaceEditar.setVisible(true);
+                } else {
+                    JOptionPane.showMessageDialog(null, "Contato não encontrado.");
+                }
+            } else {
+                JOptionPane.showMessageDialog(null, "Selecione um contato para editar.");
+            }
         });
 
         JButton btExcluir = new JButton("Excluir");
@@ -225,7 +236,7 @@ public class InterfaceUsuario {
         txtEmail.setText("");
     }
 
-    private void atualizarTabela(List<Contato> contatos) {
+    public void atualizarTabela(List<Contato> contatos) {
 
         DefaultTableModel modeloTabela = (DefaultTableModel) tabelaContatos.getModel();
         modeloTabela.setRowCount(0);

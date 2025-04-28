@@ -48,7 +48,7 @@ public class ContatoControle {
         return true;
     }
 
-    public void editarContato(String nome, String novoTelefone, String novoEmail) {
+    public boolean editarContato(String nome, String novoTelefone, String novoEmail) {
         Contato contatoEncontrado = arvore.buscarPorNome(nome);
 
         if (contatoEncontrado != null) {
@@ -56,21 +56,27 @@ public class ContatoControle {
             if (!ValidarContato.telefoneValido(novoTelefone)) {
 
                 JOptionPane.showMessageDialog(null, "Telefone inválido!", "Erro", JOptionPane.ERROR_MESSAGE);
-                return;
+                return false;
             }
 
             if (!ValidarContato.emailValido(novoEmail)) {
                 JOptionPane.showMessageDialog(null, "Email inválido!", "Erro", JOptionPane.ERROR_MESSAGE);
-                return;
+                return false;
+            }
+
+            if (ValidarContato.contatoExiste(novoTelefone, novoEmail, arvore, contatoEncontrado)) {
+                JOptionPane.showMessageDialog(null, "Contato já existe!", "Erro", JOptionPane.ERROR_MESSAGE);
+                return false;
             }
 
             contatoEncontrado.setTelefone(novoTelefone);
             contatoEncontrado.setEmail(novoEmail);
 
-            JOptionPane.showMessageDialog(null, "Contato atualizado com sucesso!", "Sucesso",
-                    JOptionPane.INFORMATION_MESSAGE);
+                    return true;
         } else {
             JOptionPane.showMessageDialog(null, "Contato não encontrado", "Erro", JOptionPane.ERROR_MESSAGE);
+
+            return false;
         }
     }
 
