@@ -7,8 +7,6 @@ import java.util.List;
 
 import Model.ArvoreBinaria;
 import Model.Contato;
-import View.InterfaceUsuario;
-import Controller.ValidarContato;
 
 public class ContatoControle {
 
@@ -54,8 +52,21 @@ public class ContatoControle {
         Contato contatoEncontrado = arvore.buscarPorNome(nome);
 
         if (contatoEncontrado != null) {
+
+            if (!ValidarContato.telefoneValido(novoTelefone)) {
+
+                JOptionPane.showMessageDialog(null, "Telefone inválido!", "Erro", JOptionPane.ERROR_MESSAGE);
+                return;
+            }
+
+            if (!ValidarContato.emailValido(novoEmail)) {
+                JOptionPane.showMessageDialog(null, "Email inválido!", "Erro", JOptionPane.ERROR_MESSAGE);
+                return;
+            }
+
             contatoEncontrado.setTelefone(novoTelefone);
             contatoEncontrado.setEmail(novoEmail);
+
             JOptionPane.showMessageDialog(null, "Contato atualizado com sucesso!", "Sucesso",
                     JOptionPane.INFORMATION_MESSAGE);
         } else {
@@ -84,6 +95,14 @@ public class ContatoControle {
 
     public Contato buscarPorEmail(String email) {
         return arvore.buscarPorEmail(email);
+    }
+
+    public List<Contato> buscarTodosContatos() {
+        List<Contato> contatos = new ArrayList<>();
+
+        arvore.exibirEmOrdem(arvore.getRaiz(), contatos);
+
+        return contatos;
     }
 
     public List<Contato> exibirContatosEmOrdem() {
