@@ -97,9 +97,6 @@ public class InterfaceUsuario {
         JScrollPane scrollPane = new JScrollPane(tabelaContatos);
         scrollPane.setBounds(40, 170, 600, 200);
 
-        //tabelaContatos.setRowSelectionAllowed(true);
-        //tabelaContatos.setColumnSelectionAllowed(false);
-        //tabelaContatos.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         tabelaContatos.getTableHeader().setReorderingAllowed(false);
 
         janela.add(scrollPane);
