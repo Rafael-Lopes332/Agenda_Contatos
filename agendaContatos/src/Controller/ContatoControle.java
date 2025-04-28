@@ -21,7 +21,8 @@ public class ContatoControle {
     public boolean adicionarContato(String nome, String telefone, String email) {
 
         if (nome.trim().isEmpty() || telefone.trim().isEmpty() || email.trim().isEmpty()) {
-            JOptionPane.showMessageDialog(null, "Todos os campos devem ser preeenchidos!", "Erro", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(null, "Todos os campos devem ser preeenchidos!", "Erro",
+                    JOptionPane.ERROR_MESSAGE);
             return false;
         }
 
@@ -46,7 +47,20 @@ public class ContatoControle {
         JOptionPane.showMessageDialog(null, "Contato Adicionado com Sucesso!", "Sucesso",
                 JOptionPane.INFORMATION_MESSAGE);
 
-                return true;
+        return true;
+    }
+
+    public void editarContato(String nome, String novoTelefone, String novoEmail) {
+        Contato contatoEncontrado = arvore.buscarPorNome(nome);
+
+        if (contatoEncontrado != null) {
+            contatoEncontrado.setTelefone(novoTelefone);
+            contatoEncontrado.setEmail(novoEmail);
+            JOptionPane.showMessageDialog(null, "Contato atualizado com sucesso!", "Sucesso",
+                    JOptionPane.INFORMATION_MESSAGE);
+        } else {
+            JOptionPane.showMessageDialog(null, "Contato não encontrado", "Erro", JOptionPane.ERROR_MESSAGE);
+        }
     }
 
     public Contato buscarPorNome(String nome) {
