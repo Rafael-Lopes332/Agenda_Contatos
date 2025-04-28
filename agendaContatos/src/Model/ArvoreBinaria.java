@@ -114,6 +114,47 @@ public class ArvoreBinaria {
         return buscarPorEmailRecursivo(noAtual.direito, email);
     }
 
+    public void removerContato(String nome) {
+        raiz = removerContatoRecursivo(raiz, nome);
+    }
+
+    private No removerContatoRecursivo(No noAtual, String nome) {
+        if (noAtual == null) {
+            return null;
+        }
+
+        int comparacao = nome.compareToIgnoreCase(noAtual.contato.getNome());
+
+        if (comparacao < 0) {
+            noAtual.esquerdo = removerContatoRecursivo(noAtual.esquerdo, nome);
+        }
+
+        else if (comparacao > 0) {
+            noAtual.direito = removerContatoRecursivo(noAtual.direito, nome);
+            
+        } 
+        else {
+            if (noAtual.esquerdo == null) {
+                return noAtual.direito;
+            }
+            if (noAtual.direito == null) {
+                return noAtual.esquerdo;
+            }
+
+            No menorNo = encontrarMenorNo(noAtual.direito);
+            noAtual.contato = menorNo.contato;
+            noAtual.direito = removerContatoRecursivo(noAtual.direito, menorNo.contato.getNome());
+        }
+        return noAtual;
+    }
+
+    private No encontrarMenorNo(No no) {
+        while (no.esquerdo != null) {
+            no = no.esquerdo;
+        }
+        return no;
+    }
+
     public void exibirEmOrdem(No noAtual, List<Contato> lista) {
         if (noAtual != null) {
             exibirEmOrdem(noAtual.esquerdo, lista);
@@ -140,5 +181,6 @@ public class ArvoreBinaria {
         }
 
     }
+
 
 }

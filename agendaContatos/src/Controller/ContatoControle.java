@@ -63,6 +63,17 @@ public class ContatoControle {
         }
     }
 
+    public boolean removerContato(String nome) {
+        Contato Cont = buscarPorNome(nome);
+        if (Cont == null) {
+            JOptionPane.showMessageDialog(null, "Contato: " + Cont + " não encontrado", "Erro", JOptionPane.ERROR_MESSAGE);
+            return false;
+        }
+        arvore.removerContato(nome);
+        JOptionPane.showMessageDialog(null,"Contato: " + Cont + " removido com sucesso!", "Sucesso", JOptionPane.INFORMATION_MESSAGE);
+        return true;
+    }
+
     public Contato buscarPorNome(String nome) {
         return arvore.buscarPorNome(nome);
     }
