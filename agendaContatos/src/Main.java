@@ -1,3 +1,5 @@
+import java.util.List;
+
 import Controller.ContatoControle;
 import Model.ArvoreBinaria;
 import Model.Contato;
