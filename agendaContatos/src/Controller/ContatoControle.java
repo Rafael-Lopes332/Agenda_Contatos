@@ -7,8 +7,6 @@ import java.util.List;
 
 import Model.ArvoreBinaria;
 import Model.Contato;
-import View.InterfaceUsuario;
-import Controller.ValidarContato;
 
 public class ContatoControle {
 
@@ -21,7 +19,8 @@ public class ContatoControle {
     public boolean adicionarContato(String nome, String telefone, String email) {
 
         if (nome.trim().isEmpty() || telefone.trim().isEmpty() || email.trim().isEmpty()) {
-            JOptionPane.showMessageDialog(null, "Todos os campos devem ser preeenchidos!", "Erro", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(null, "Todos os campos devem ser preeenchidos!", "Erro",
+                    JOptionPane.ERROR_MESSAGE);
             return false;
         }
 
@@ -46,7 +45,33 @@ public class ContatoControle {
         JOptionPane.showMessageDialog(null, "Contato Adicionado com Sucesso!", "Sucesso",
                 JOptionPane.INFORMATION_MESSAGE);
 
-                return true;
+        return true;
+    }
+
+    public void editarContato(String nome, String novoTelefone, String novoEmail) {
+        Contato contatoEncontrado = arvore.buscarPorNome(nome);
+
+        if (contatoEncontrado != null) {
+
+            if (!ValidarContato.telefoneValido(novoTelefone)) {
+
+                JOptionPane.showMessageDialog(null, "Telefone inválido!", "Erro", JOptionPane.ERROR_MESSAGE);
+                return;
+            }
+
+            if (!ValidarContato.emailValido(novoEmail)) {
+                JOptionPane.showMessageDialog(null, "Email inválido!", "Erro", JOptionPane.ERROR_MESSAGE);
+                return;
+            }
+
+            contatoEncontrado.setTelefone(novoTelefone);
+            contatoEncontrado.setEmail(novoEmail);
+
+            JOptionPane.showMessageDialog(null, "Contato atualizado com sucesso!", "Sucesso",
+                    JOptionPane.INFORMATION_MESSAGE);
+        } else {
+            JOptionPane.showMessageDialog(null, "Contato não encontrado", "Erro", JOptionPane.ERROR_MESSAGE);
+        }
     }
 
     public boolean removerContato(String nome) {
@@ -70,6 +95,14 @@ public class ContatoControle {
 
     public Contato buscarPorEmail(String email) {
         return arvore.buscarPorEmail(email);
+    }
+
+    public List<Contato> buscarTodosContatos() {
+        List<Contato> contatos = new ArrayList<>();
+
+        arvore.exibirEmOrdem(arvore.getRaiz(), contatos);
+
+        return contatos;
     }
 
     public List<Contato> exibirContatosEmOrdem() {

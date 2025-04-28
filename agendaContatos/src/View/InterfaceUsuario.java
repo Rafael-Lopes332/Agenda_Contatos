@@ -14,6 +14,7 @@ import java.awt.Font;
 import java.awt.Color;
 
 import javax.swing.JTextField;
+import javax.swing.ListSelectionModel;
 import javax.swing.table.DefaultTableModel;
 
 import Controller.ContatoControle;
@@ -28,6 +29,8 @@ public class InterfaceUsuario {
     private JTextField txtNome;
     private JTextField txtTelefone;
     private JTextField txtEmail;
+
+    private JButton btEditar;
 
     private JTable tabelaContatos;
 
@@ -83,13 +86,39 @@ public class InterfaceUsuario {
         janela.add(txtEmail);
 
         String[] colunas = { "Nome", "Telefone", "Email" };
-        DefaultTableModel modeloTabela = new DefaultTableModel(colunas, 0);
+        DefaultTableModel modeloTabela = new DefaultTableModel(colunas, 0) {
+            @Override
+            public boolean isCellEditable(int row, int column) {
+                return false;
+            }
+        };
+
         tabelaContatos = new JTable(modeloTabela);
         JScrollPane scrollPane = new JScrollPane(tabelaContatos);
         scrollPane.setBounds(40, 170, 600, 200);
-        tabelaContatos.setEnabled(false);
+
+        tabelaContatos.setRowSelectionAllowed(true);
+        tabelaContatos.setColumnSelectionAllowed(false);
+        tabelaContatos.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         tabelaContatos.getTableHeader().setReorderingAllowed(false);
+
         janela.add(scrollPane);
+
+        tabelaContatos.getSelectionModel().addListSelectionListener(e -> {
+            int linhaSelecionada = tabelaContatos.getSelectedRow();
+
+            if (linhaSelecionada != -1) {
+                String nome = (String) modeloTabela.getValueAt(linhaSelecionada, 0);
+                String telefone = (String) modeloTabela.getValueAt(linhaSelecionada, 1);
+                String email = (String) modeloTabela.getValueAt(linhaSelecionada, 2);
+
+                txtNome.setText(nome);
+                txtTelefone.setText(telefone);
+                txtEmail.setText(email);
+
+                btEditar.setEnabled(true);
+            }
+        });
 
         JButton btAdicionar = new JButton("Adicionar");
         btAdicionar.setBounds(40, 400, 100, 30);
@@ -139,9 +168,21 @@ public class InterfaceUsuario {
             }
         });
 
-        JButton btEditar = new JButton("Editar");
+        btEditar = new JButton("Editar");
         btEditar.setBounds(390, 400, 100, 30);
         janela.add(btEditar);
+
+        btEditar.addActionListener(e -> {
+            String nome = txtNome.getText().trim();
+            String novoTelefone = txtTelefone.getText().trim();
+            String novoEmail = txtEmail.getText().trim();
+
+            controle.editarContato(nome, novoTelefone, novoEmail);
+
+            atualizarTabela(controle.buscarTodosContatos());
+
+            limparCampos();
+        });
 
         JButton btExcluir = new JButton("Excluir");
         btExcluir.setBounds(540, 400, 100, 30);

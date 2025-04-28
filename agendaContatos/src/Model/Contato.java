@@ -25,7 +25,7 @@ public class Contato {
     }
 
     public void setTelefone(String telefone){
-        this.nome = telefone;
+        this.telefone = telefone;
     }
 
     public String getEmail(){
@@ -33,7 +33,7 @@ public class Contato {
     }
 
     public void setEmail(String email){
-        this.nome = email;
+        this.email = email;
     }
 
     @Override
