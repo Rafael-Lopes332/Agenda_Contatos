@@ -147,6 +147,19 @@ public class InterfaceUsuario {
         btExcluir.setBounds(540, 400, 100, 30);
         janela.add(btExcluir);
 
+        btExcluir.addActionListener(e -> {
+            String nome = txtNome.getText().trim();
+            if(nome.isEmpty()) {
+                JOptionPane.showMessageDialog(null, "Digite o nome para remover!", "Atenção!", JOptionPane.WARNING_MESSAGE);
+                return;
+            }
+
+            if (controle.removerContato(nome)) {
+                atualizarTabela(controle.exibirContatosEmOrdem());
+                limparCampos();
+            }
+        });
+
         String[] opcoes = { "Em ordem", "Pré-ordem", "Pós-ordem" };
         JComboBox<String> comboBusca = new JComboBox<>(opcoes);
         comboBusca.setBounds(430, 105, 210, 30);
